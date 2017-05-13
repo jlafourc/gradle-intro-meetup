@@ -1,0 +1,11 @@
+{
+  "generator-reveal": {
+    "presentationTitle": "Débuter avec Gradle",
+    "packageVersion": "1.0.0",
+    "revealTheme": "white",
+    "useSass": false,
+    "deployToGithubPages": true,
+    "githubUsername": "jlafourc",
+    "githubRepository": "gradle-intro-meetup"
+  }
+}
