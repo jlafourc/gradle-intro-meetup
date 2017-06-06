@@ -1,0 +1,27 @@
+task task1 {
+    doLast {
+        println "Hello from task 1"
+    }
+}
+
+task task2 {
+    doLast {
+        println "Hello from task 2"
+    }
+}
+
+task1.dependsOn task2
+
+task hashAll(group: "Hash des noms") {
+
+}
+
+["MD5", "SHA1"].each { a -> 
+    def t = task("hash-$a", type: ComputeHashes, group: "Hash des noms") {
+        noms = file('noms.txt')
+        algo = a
+    }
+    hashAll.dependsOn t
+
+}
+
