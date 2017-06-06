@@ -1,7 +1,9 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
+group 'org.meetup'
 version = '1.0'
 
 repositories {
@@ -10,4 +12,13 @@ repositories {
 
 dependencies {
     compile group: 'org.apache.commons', name: "commons-lang3", version: "3.5"
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
