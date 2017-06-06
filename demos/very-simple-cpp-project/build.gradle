@@ -1,0 +1,13 @@
+apply plugin: 'cpp'
+model {
+    components {
+        main(NativeExecutableSpec) {
+            binaries.all {
+                cppCompiler.define "NDEBUG"
+                if (toolChain in Gcc) {
+                    cppCompiler.args "-fno-access-control", "-fconserve-space"
+                }
+            }
+        }
+    }
+}
