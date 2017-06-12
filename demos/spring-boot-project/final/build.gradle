@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+sourceSets {
+	integTest {
+		compileClasspath += main.output
+		runtimeClasspath += main.output
+	}
+}
+
+configurations {
+	integTestCompile.extendsFrom testCompile
+	integTestRuntime.extendsFrom testRuntime
+}
+
+task createMongoDatabase(type: Exec) {
+	commandLine 'docker', 'run', '--name', 'some-mongo',  '-p', '27017:27017',  '-d', '--rm', 'mongo'
+}
+
+task integTest(type: Test) {
+	testClassesDir = sourceSets.integTest.output.classesDir
+	classpath = sourceSets.integTest.runtimeClasspath
+	systemProperty 'spring.data.mongodb.host', dockerHost
+	outputs.upToDateWhen { false }
+}
+
+task dropMongoDatabase(type: Exec) {
+	commandLine 'docker', 'stop', 'some-mongo'
+}
+
+integTest.dependsOn createMongoDatabase
+integTest.finalizedBy dropMongoDatabase
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.meetup:lib:1.0')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
