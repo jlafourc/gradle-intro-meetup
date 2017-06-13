@@ -32,7 +32,7 @@
 
 * ```compileJava``` compilation des sources avec ```javac```
 * ```compileTestJava``` compilation des sources des tests
-* ```test``` exécution des test avec JUnit (ou autre)
+* ```test``` exécution des tests avec JUnit (ou autre)
 * ```jar``` création du jar avec le résultat de la compilation
 
 ---
